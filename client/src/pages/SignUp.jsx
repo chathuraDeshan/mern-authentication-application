@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import img1 from '../image/google.png'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navegate = useNavigate();
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value})
   };
@@ -31,6 +32,8 @@ const handleSubmit = async (e) => {
     }
     
     setError(false);
+
+    navegate('/sign-in');
 
   } catch(error) {
     setLoading(false);
