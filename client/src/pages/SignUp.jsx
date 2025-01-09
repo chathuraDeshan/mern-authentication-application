@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import img1 from '../image/google.png'
 import {Link, useNavigate} from 'react-router-dom'
+import OAuth from '../components/OAuth';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -117,17 +117,7 @@ const handleSubmit = async (e) => {
             </button>
 
             {/* Continue with Google */}
-            <button
-              type="button"
-              className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center mt-4"
-            >
-              <img 
-                src= {img1}
-                alt="Google"
-                className="w-9 h-6 mr-2"
-              />
-              CONTINUE WITH GOOGLE
-            </button>
+            <OAuth/>  
           </form>
 
           {/* Footer */}

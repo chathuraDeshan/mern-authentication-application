@@ -1,10 +1,10 @@
 
 
 import React, { useState } from 'react'
-import img1 from '../image/google.png'
 import {Link, useNavigate} from 'react-router-dom'
 import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import OAuth from '../components/OAuth'
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -30,7 +30,7 @@ const handleSubmit = async (e) => {
       });
     const data = await res.json();
     if (data.success === false) {
-      dispatch(signInFailure(data.message))
+      dispatch(signInFailure(data))
       return;
     }
     dispatch(signInSuccess(data));
@@ -105,22 +105,13 @@ const handleSubmit = async (e) => {
             </button>
 
             {/* Continue with Google */}
-            <button
-              type="button"
-              className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center mt-4"
-            >
-              <img 
-                src= {img1}
-                alt="Google"
-                className="w-9 h-6 mr-2"
-              />
-              CONTINUE WITH GOOGLE
-            </button>
+            <OAuth/>
+            
           </form>
 
           {/* Footer */}
           <div className=" text-center mt-4">
-            <p className='text-red-500'>{error ? error || 'Something went wrong!' : ''}</p>
+            <p className='text-red-500'>{error ? error.message || 'Something went wrong!' : ''}</p>
             <p className="text-sm text-gray-400">
               Don't have an account? 
               <Link to= '/sign-up' className="text-green-400 hover:underline"> Sign up
