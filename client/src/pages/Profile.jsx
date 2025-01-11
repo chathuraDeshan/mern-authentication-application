@@ -1,6 +1,8 @@
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
+import { useRef } from "react";
 
 const Profile = () => {
+  const fileRef = useRef(null);
   const {currentUser} = useSelector(state => state.user);
   return (
     <div className="min-h-screen bg-green-200 flex flex-col">
@@ -14,13 +16,17 @@ const Profile = () => {
 
           {/* Profile Picture */}
           <div className="flex justify-center mb-4">
+          
             <div className="relative">
               <img
                 src={currentUser.profilePicture}
                 alt="Profile"
                 className="w-24 h-24 rounded-full border-4 border-gray-600"
               />
-              <button className="absolute bottom-0 right-0 bg-green-500 p-1 rounded-full text-white text-xs hover:bg-green-600 transition">
+              <input type="file" ref={fileRef} hidden accept="image/*"/>
+              <button
+              onClick={() => fileRef.current.click()} 
+              className="absolute bottom-0 right-0 bg-green-500 p-1 rounded-full text-white text-xs hover:bg-green-600 transition">
                 +
               </button>
               
