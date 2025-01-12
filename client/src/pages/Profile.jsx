@@ -1,9 +1,45 @@
 import { useSelector } from "react-redux";
 import { useRef } from "react";
+import { useState, } from "react";
+import { useDispatch } from "react-redux";
+
+import { updateUserStart,updateUserFailure,updateUserSuccess } from "../redux/user/userSlice";
+
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({});
   const fileRef = useRef(null);
-  const {currentUser} = useSelector(state => state.user);
+  const {currentUser, loading, error} = useSelector(state => state.user);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.id]: e.target.value});
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(updateUserFailure(error));
+    }
+  };
+  
   return (
     <div className="min-h-screen bg-green-200 flex flex-col">
      
@@ -34,7 +70,7 @@ const Profile = () => {
           </div>
 
           {/* Profile Form Fields */}
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Username */}
             <div>
               <label className="block text-sm font-semibold mb-1" htmlFor="username">
@@ -46,6 +82,8 @@ const Profile = () => {
                 id="username"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 text-black"
                 placeholder="Your Username"
+                onChange={handleChange}
+                
               />
             </div>
 
@@ -60,6 +98,8 @@ const Profile = () => {
                 id="email"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 text-black"
                 placeholder="Your Email"
+                onChange={handleChange}
+                
               />
             </div>
 
@@ -73,6 +113,8 @@ const Profile = () => {
                 id="password"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 text-black"
                 placeholder="New Password"
+                onChange={handleChange}
+                
               />
             </div>
 
@@ -91,7 +133,10 @@ const Profile = () => {
             <span className="text-red-500">Delete Account</span>
             <span className="text-red-500">Sign out</span>
           </div>
-
+          {/* <div>
+            <p className="text-red-500 mt-5">{error && 'Something went wrong!'}</p>
+            <p className="text-green-500 mt-5">{updateSuccess && 'User is updated success'}</p>
+          </div> */}
         </div>
       </main>
     </div>
