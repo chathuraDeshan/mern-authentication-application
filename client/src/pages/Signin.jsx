@@ -1,53 +1,53 @@
 
 
 import React, { useState } from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice'
+import { Link, useNavigate } from 'react-router-dom'
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import OAuth from '../components/OAuth'
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const {loading,error} = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.id]: e.target.value})
+    setFormData({ ...formData, [e.target.id]: e.target.value })
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault(); // using this if click the submit button not the refresh page
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // using this if click the submit button not the refresh page
 
-  try{
-    dispatch(signInStart());
-    const res = await fetch(
-      '/api/auth/signin', {
+    try {
+      dispatch(signInStart());
+      const res = await fetch(
+        '/api/auth/signin', {
         method: 'POST',
         headers: {
-          'Content-Type' : 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-    const data = await res.json();
-    if (data.success === false) {
-      dispatch(signInFailure(data))
-      return;
-    }
-    dispatch(signInSuccess(data));
-    navigate('/');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data))
+        return;
+      }
+      dispatch(signInSuccess(data));
+      navigate('/');
 
-  } catch(error) {
-    dispatch(signInFailure(error));
-  }
-  
-  
-  
-  
-};
-  
+    } catch (error) {
+      dispatch(signInFailure(error));
+    }
+
+
+
+
+  };
+
   return (
     <div className="min-h-screen bg-green-200 flex flex-col">
-      
+
 
       {/* Sign-Up Form */}
       <main className="flex justify-center items-center flex-grow">
@@ -55,18 +55,18 @@ const handleSubmit = async (e) => {
           {/* Tabs */}
           <div className="flex justify-between mb-6">
             <button className="text-gray-400 font-semibold text-lg">
-              <Link to= '/sign-up'>Sign Up</Link>
+              <Link to='/sign-up'>Sign Up</Link>
             </button>
             <button className="text-white font-semibold text-lg border-b-2 border-green-500">
-              <Link to= '/sign-in'>Sign In</Link>
+              <Link to='/sign-in'>Sign In</Link>
             </button>
           </div>
 
           {/* Sign-Up Form */}
-          <form 
+          <form
             onSubmit={handleSubmit}
             className="space-y-4">
-            
+
 
             {/* Email */}
             <div>
@@ -105,21 +105,21 @@ const handleSubmit = async (e) => {
             </button>
 
             {/* Continue with Google */}
-            <OAuth/>
-            
+            <OAuth />
+
           </form>
 
           {/* Footer */}
           <div className=" text-center mt-4">
             <p className='text-red-500'>{error ? error.message || 'Something went wrong!' : ''}</p>
             <p className="text-sm text-gray-400">
-              Don't have an account? 
-              <Link to= '/sign-up' className="text-green-400 hover:underline"> Sign up
+              Don't have an account?
+              <Link to='/sign-up' className="text-green-400 hover:underline"> Sign up
               </Link>
             </p>
-            
+
           </div>
-          
+
         </div>
       </main>
     </div>
