@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './models/routes/user.route.js';
 import authRoutes from './models/routes/auth.route.js';
-import path from path;
+import path from  'path';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO)
 const __dirname = path.resolve();
 const app = express();
 
-app.use(express.static(path.json(__dirname, '/client/dist')))
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.get('*', (req,res) => {
     res.sendFile(path.json(__dirname, 'client', 'dist', 'index.html'))
@@ -27,6 +27,7 @@ app.get('*', (req,res) => {
 
 
 app.use(express.json());
+
 app.use(cookieParser());
 
 app.listen(3000, () => {

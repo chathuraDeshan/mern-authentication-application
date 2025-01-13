@@ -1,4 +1,4 @@
-import { FaReact, FaNodeJs, FaLock, FaDatabase, FaGithub, FaRocket } from "react-icons/fa";
+import { FaReact, FaNodeJs, FaLock, FaDatabase, FaGithub, FaRocket, FaLinkedin } from "react-icons/fa";
 import { SiMongodb, SiRedux, SiFirebase, SiJsonwebtokens, SiTailwindcss } from "react-icons/si";
 
 const About = () => {
@@ -97,12 +97,21 @@ const About = () => {
           Connect with me on GitHub:
         </p>
         <a 
-          href="https://github.com/yourgithub" 
+          href="https://github.com/chathuraDeshan/mern-authentication-application" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="mt-4 inline-block bg-green-500 px-6 py-3 text-lg rounded-lg hover:bg-green-600 transition"
+          className="mt-4 mr-2  inline-block bg-green-500 px-6 py-3 text-lg rounded-lg hover:bg-green-600 transition"
         >
           <FaGithub className="inline mr-2" /> View on GitHub
+        </a>
+        
+        <a
+          href="https://www.linkedin.com/feed/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="mt-4 inline-block bg-blue-500 px-6 py-3 text-lg rounded-lg hover:bg-blue-600 transition "
+        >
+          <FaLinkedin className="inline mr-2"/> Contact Linkedin
         </a>
       </section>
 
